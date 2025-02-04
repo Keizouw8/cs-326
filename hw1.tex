@@ -101,7 +101,7 @@ digit = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 \begin{adjustwidth}{2.35em}{0pt}
 \begin{tabular}{l c l}
 A & $\rightarrow$ & aba $|$ abBba \\
-B & $\rightarrow$ & BB $|$ a $|$ b
+B & $\rightarrow$ & BB $|$ a $|$ b $|$ $\epsilon$
 \end{tabular}
 \end{adjustwidth}
 \subsection{Strings that consist of a sequence of $a$’s followed by a sequence of $b$’s, where the number of $a$’s is even, and equal to the number of $b$’s, over alphabet $\{a,b\}$. In other words, the language \{$a^nb^n $ $|$ $ n \geq 0$ and $n$ is even\}.}
@@ -200,9 +200,13 @@ x = v[k-3]
 				\texttt{[}
 				[.Index
 					[.E
-						{nr (\texttt{k})}
+						[.E
+							{nr (\texttt{k})}
+						]
 						\texttt{-}
-						{nr (\texttt{3})}
+						[.E
+							{nr (\texttt{3})}
+						]
 					]
 				]
 				\texttt{]}
