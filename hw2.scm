@@ -12,8 +12,10 @@
 
 ; Question 1
 (define (subst x y L) 
-	(define i (car L))
-	(cons (if (equal? i x) y i) (if (= 1 (length L)) () (subst x y (cdr L))))
+	(let
+		((i (car L)))
+		(cons (if (equal? i x) y i) (if (= 1 (length L)) () (subst x y (cdr L))))
+	)
 )
 
 ; Question 2
@@ -48,7 +50,16 @@
 )
 ; part d
 (define (postorder T)
-	(if (null? T) () (append (postorder (left T)) (append (postorder (right T)) (list (val T)))))
+	(if (null? T)
+		()
+		(append
+			(postorder (left T))
+			(append
+				(postorder (right T))
+				(list (val T))
+			)
+		)
+	)
 )
 
 ; Question 4
@@ -62,11 +73,16 @@
 
 ; Question 5
 (define (member-bst? v T)
-	(cond
-		((null? T) #f)
-		((= v (val T)) #t)
-		((< v (val T)) (member-bst? v (left T)))
-		((> v (val T)) (member-bst? v (right T)))
+	(if (null? T)
+		#f
+		(let
+			((i (val T)))
+			(cond
+				((= v i) #t)
+				((< v i) (member-bst? v (left T)))
+				((> v i) (member-bst? v (right T)))
+			)
+		)
 	)
 )
 
