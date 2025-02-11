@@ -2,5 +2,5 @@
 file=`find . -iname "hw$1*" ! -iname "*.pdf"`
 extension="${file##*.}"
 if [ $extension == "scm" ]; then
-	scheme --quiet < "$file"
+	scheme --quiet --load "$file"
 fi
