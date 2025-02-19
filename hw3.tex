@@ -1,0 +1,77 @@
+\documentclass[letterpaper]{article}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{qtree}
+\usepackage{fancyvrb}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\title{Homework 3}
+\author{Keizou Wang}
+\date{February 27, 2025}
+
+\titleformat{\section}{\normalfont\normalsize}{\bfseries\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize}{(\textit{\alph{subsection}})}{1em}{}
+
+\lstset{
+	language=C++,
+	basicstyle={\ttfamily},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	tabsize=4,
+	showstringspaces=false
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Assume that each integer variable occupies four bytes. How much total space is required for
+the variables in this code? Justify your answer.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+{ int a, b, c;
+	...
+	{ int d, e;
+		...
+		{ int f;
+			...
+		}
+		...
+	}
+	...
+	{ int g, h, i;
+		...
+	}
+	...
+}
+\end{lstlisting}
+The variables will occupy 24 bytes total because up to 6 variables exist in a given scope at a time.
+\end{adjustwidth}
+
+\section{Assuming static scope, what is the referencing environment (i.e., what names are known, and
+what do they refer to) at the location marked by (*)?}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+procedure P (A,B: real)
+	X: real
+	procedure Q (B,C: real)
+		Y: real
+		...
+	procedure R (A,C: real)
+		Z: real
+		... // (*)
+	...
+\end{Verbatim}
+P, Q, R, A, B, C, X, and Z are known. P, Q, R refer to the procedures. B refers to P's parameter. X refers to the variable defined in P. A, C refer to R's parameters. Z refers to the variable defined in R.
+\end{adjustwidth}
+
+\end{document}
