@@ -1,0 +1,126 @@
+\documentclass[letterpaper]{article}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{qtree}
+\usepackage{fancyvrb}
+\usepackage{enumitem}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\title{Homework 4}
+\author{Keizou Wang}
+\date{March 18, 2025}
+
+\titleformat{\section}{\normalfont\normalsize}{\bfseries\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize}{(\textit{\alph{subsection}})}{1em}{}
+
+\lstset{
+	language=C++,
+	basicstyle={\ttfamily},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	tabsize=4,
+	showstringspaces=false
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Translate the following expression into (a) postfix and (b) prefix notation:}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}
+(b + sqrt(b*b - 4*a*c))/(2*a)
+\end{Verbatim}
+Prefix: \texttt{/ + b sqrt - *bb **4ac *2a} \\
+Postfix: \texttt{b bb* 4a*c* - sqrt + 2a* /}
+\end{adjustwidth}
+
+\section{Some languages (e.g., Algol 68) do not employ short-circuit evaluation for Boolean expressions. However, in such languages an if…then…else construct (which only evaluates the arm that is needed) can be used as an expression that returns a value. Show how to use if…then…else to achieve the effect of short-circuit evaluation for A and B and for A or B.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+A and B: if A then B else False
+A or B: if A then True else B
+\end{Verbatim}
+\end{adjustwidth}
+
+\section{Consider a midtest loop, here written in C, that processes all lines in the input until a blank line is found:}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+for ( ; ; ) {
+	line = read_line();
+	if (all_blanks(line)) break;
+	process_line(line);
+}
+\end{lstlisting}
+\end{adjustwidth}
+\subsection{Show how you might accomplish the same task in C using a while loop.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+line = read_line();
+while (!all_blanks(line)) {
+	process_line(line);
+	line = read_line();
+}
+\end{lstlisting}
+\end{adjustwidth}
+\subsection{Show how you might accomplish the same task in C using a do loop.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+do{
+	line = read_line();
+	if(!all_blanks(line)) process_line(line);
+}while (!all_blanks(line))
+\end{lstlisting}
+\end{adjustwidth}
+
+\section{Write a \textit{tail-recursive} function in Scheme to compute n factorial ($n! = 1\times2\times\dots\times n$). You will probably want to define a “helper” function, as discussed in the textbook.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+(define (factorial n)
+	(define (helper a n)
+		(if (equal? n 1)
+			a
+			(helper (* a n) (- n 1))
+		)
+	)
+	(helper 1 n)
+)
+\end{Verbatim}
+\end{adjustwidth}
+
+\section{Give an example in C in which an in-line subroutine may be significantly faster than a functionally equivalent macro. Give another example in which the macro is likely to be faster. Hint: think about applicative versus normal-order evaluation of arguments.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+#include <stdio.h>
+#define macroSum(x, y) (x + y)
+
+int functionSum(int x, int y){
+	return x + y;
+}
+
+int factorial(int x){
+	return x == 1 ? x : x * factorial(x - 1);
+}
+
+int main(){
+	// Function faster than macro
+	printf("%i\n", functionSum(factorial(10), factorial(10)));
+	printf("%i", macroSum(factorial(10), factorial(10)));
+
+	// Macro faster than function
+	printf("%i\n", functionSum(10, 10));
+	printf("%i", macroSum(10, 10));
+}
+\end{lstlisting}
+\end{adjustwidth}
+
+\end{document}

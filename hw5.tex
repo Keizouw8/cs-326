@@ -1,0 +1,168 @@
+\documentclass[letterpaper]{article}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{qtree}
+\usepackage{fancyvrb}
+\usepackage{enumitem}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\title{Homework 5}
+\author{Keizou Wang}
+\date{April 10, 2025}
+
+\titleformat{\section}{\normalfont\normalsize}{\bfseries\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize}{(\textit{\alph{subsection}})}{1em}{}
+
+\lstset{
+	language=C++,
+	basicstyle={\ttfamily},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	tabsize=4,
+	showstringspaces=false
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Suppose we are compiling for a machine with 1-byte characters, 2-byte shorts, 4- byte integers, and 8-byte reals, and with alignment rules that require the address of every primitive data element to be a multiple of the element's size. Suppose further that the compiler is not permitted to reorder fields. How much space will be consumed by the following array? Explain.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+A : array [0..9] of record
+	s : short
+	c : char
+	t : short
+	d : char
+	r : real
+	i : integer
+\end{Verbatim}
+\begin{Verbatim}[tabsize=4]
+10(2+1+2+1+8+4)=180
+\end{Verbatim}
+\end{adjustwidth}
+
+\section{For the following code specify which of the variables a,b,c,d are type equivalent.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+Type T = array [1..10] of integer
+     S = T
+a : T
+b : T
+c : S
+d : array [1..10] of integer
+\end{Verbatim}
+\end{adjustwidth}
+\subsection{Under structural equivalence.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+a=b=c=d 
+\end{Verbatim}
+\end{adjustwidth}
+\subsection{Under strict name equivalence.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+a=b, c, d
+\end{Verbatim}
+\end{adjustwidth}
+\subsection{Under loose name equivalence.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}[tabsize=4]
+a=b=c, d
+\end{Verbatim}
+\end{adjustwidth}
+
+\section{We are trying to run the following C program:}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+typedef struct
+{
+	int a;
+	char * b;
+} Cell;
+
+void AllocateCell (Cell * q)
+{
+	q = (Cell *) malloc ( sizeof(Cell) );
+}
+
+void main ()
+{
+	Cell * c;
+	AllocateCell (c);
+	c->a = 1;
+	free(c);
+}
+\end{lstlisting}
+\end{adjustwidth}
+\subsection{The program produces a run-time error. Why?}
+\begin{adjustwidth}{2.35em}{0pt}
+	The programing produces a run-time error because the initialization and assignment to q on line 9 in the Allocate Cell function does not modify c. Therefore, c remains unintialized when the free function is called on it, causing the error.
+\end{adjustwidth}
+\subsection{Rewrite the functions \texttt{AllocateCell} and \texttt{main} so that the program runs correctly.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+typedef struct{
+	int a;
+	char * b;
+} Cell;
+
+void AllocateCell (Cell*& q){
+	q = (Cell *) malloc ( sizeof(Cell) );
+}
+
+void main (){
+	Cell* c;
+	AllocateCell (c);
+	c->a = 1;
+	free(c);
+}
+\end{lstlisting}
+\end{adjustwidth}
+
+\section{Consider the following C declaration, compiled on a 32-bit Pentium machine.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+struct
+{
+	int n;
+	char c;
+} A[10][10];
+\end{lstlisting}
+If the address of \texttt{A[0][0]} is 1000 (decimal), what is the address of \texttt{A[3][7]}? Explain how this is computed.
+\end{adjustwidth}
+\begin{adjustwidth}{1.8em}{0pt}
+\begin{tabular}{l c l}
+Size(int)=4, Size(char)=1 & $\Rightarrow$ & Size(Elem)=5 \\
+Size(Elem)=5, Size(Index)=4$k$: $k\in\mathbb{N}$  & $\Rightarrow$ & Size(Index)=8 \\
+Columns=10, x=3, y=7  & $\Rightarrow$ & Index=x(Columns)+y=37 \\
+Address = 1000 + Index $\cdot$ Size(Index) = 1296
+\end{tabular}
+\end{adjustwidth}
+
+\section{Write a small fragment of code that shows how unions can be used in C to interpret the bits of a value of one type as if they represented a value of some other type (non-converting type cast).}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+union Number{
+	int i;
+	float f;
+};
+
+int main(){
+	int original = 37;
+	Number originalUnion = { .i=original };
+	float unionInterpretedFloat = originalUnion.f; // 5.1848e-44
+}
+\end{lstlisting}
+\end{adjustwidth}
+
+\end{document}
