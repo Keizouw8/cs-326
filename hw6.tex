@@ -1,0 +1,83 @@
+\documentclass[letterpaper]{article}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{qtree}
+\usepackage{fancyvrb}
+\usepackage{enumitem}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\title{Homework 6}
+\author{Keizou Wang}
+\date{April 22, 2025}
+
+\titleformat{\section}{\normalfont\normalsize}{\bfseries\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize}{(\textit{\alph{subsection}})}{1em}{}
+
+\lstset{
+	language=C++,
+	basicstyle={\ttfamily},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	tabsize=4,
+	showstringspaces=false
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Consider the following C program:}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+void foo()
+{
+	int i;
+	printf("%d ", i++);
+}
+
+void main()
+{
+	int j;
+	for (j = 1; j <= 10; j++)
+		foo();
+}
+\end{lstlisting}
+Local variable i in subroutine foo is never initialized. On many systems, however, variable i appears to “remember” its value between the calls to foo, and the program will print 0 1 2 3 4 5 6 7 8 9.
+\end{adjustwidth}
+\subsection{Suggest an explanation for this behavior}
+\begin{adjustwidth}{2.35em}{0pt}
+i is declared without a default value so the value is determined by what's already at the address. Therefore, whenever the foo is ran, i takes the same address and the same value is incremented.
+\end{adjustwidth}
+\subsection{Change the code above (without modifying function foo) to alter this behavior.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{lstlisting}
+void main()
+{
+	int j, i;
+	for (j = 1; j <= 10; j++){
+		printf("%d ", i);
+		foo();
+	}
+}
+\end{lstlisting}
+\end{adjustwidth}
+
+\section{Can you write a macro in C that “returns” the factorial of an integer argument (without calling a subroutine)? Why or why not?}
+\begin{adjustwidth}{2.35em}{0pt}
+It would be impossible because recursion is impossible with just textual substitution and a loop solution can't directly ``return" a value.
+\end{adjustwidth}
+
+\section{Consider a subroutine \texttt{swap} that takes two parameters and simply swaps their values. For example, after calling \texttt{swap(X,Y)}, \texttt{X} should have the original value of \texttt{Y} and \texttt{Y} the original value of \texttt{X}. Assume that variables to be swapped can be simple or subscripted (elements of an array), and they have the same type (integer). Show that it is \textit{impossible} to write such a general-purpose \texttt{swap} subroutine in a language with:}
+\subsection{Parameters passing by value.}
+\subsection{Parameters passing by name.}
+
+\end{document}

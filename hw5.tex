@@ -46,7 +46,7 @@ A : array [0..9] of record
 	r : real
 	i : integer
 \end{Verbatim}
-Each record has a size of $2+1+2+1+8+4=18$ bytes. Each index must align to a multiple of 4 bytes, so each is 20 bytes. $20\cdot10=200$ bytes.
+Each record has a size of $2+1+2+1+8+4=18$ bytes. Each index must align to a multiple of 8 bytes to align to ablock, so each is 24 bytes. $24\cdot10=240$ bytes.
 \end{adjustwidth}
 
 \section{For the following code specify which of the variables a,b,c,d are type equivalent.}
