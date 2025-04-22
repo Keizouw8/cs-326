@@ -55,7 +55,7 @@ Local variable i in subroutine foo is never initialized. On many systems, howeve
 \end{adjustwidth}
 \subsection{Suggest an explanation for this behavior}
 \begin{adjustwidth}{2.35em}{0pt}
-i is declared without a default value so the value is determined by what's already at the address. Therefore, whenever the foo is ran, i takes the same address and the same value is incremented.
+i is declared without a default value every time so the value is determined by what's already at the address. In this scenario, it seems whenever foo is ran, i takes the same address and the same value is incremented.
 \end{adjustwidth}
 \subsection{Change the code above (without modifying function foo) to alter this behavior.}
 \begin{adjustwidth}{2.35em}{0pt}
@@ -83,9 +83,7 @@ It's impossible when passing by value because the programmer only has access to 
 \end{adjustwidth}
 \subsection{Parameters passing by name.}
 \begin{adjustwidth}{2.35em}{0pt}
-int t = x;
-x = y;
-y = t;
+Consider the case \texttt{swap(i, a[i])}. After changing the value of \texttt{i}, \texttt{a[i]} references a different address so the behavior becomes unpredictable.
 \end{adjustwidth}
 
 \section{Consider the following program, written in no particular language.}
@@ -121,8 +119,13 @@ Show what the program prints in the case of parameter passing by
 \end{adjustwidth}
 \subsection{value-result}
 \begin{adjustwidth}{2.35em}{0pt}
+If the value of \texttt{i} is updated to the result before \texttt{a[i]} is updated:
 \begin{Verbatim}
 2 10 1
+\end{Verbatim}
+If the value of \texttt{i} is updated to the result after \texttt{a[i]} is updated:
+\begin{Verbatim}
+2 1 11
 \end{Verbatim}
 \end{adjustwidth}
 \subsection{name}
@@ -134,7 +137,7 @@ Show what the program prints in the case of parameter passing by
 
 \section{Does a program run faster when the programmer does not specify values for the optional parameters in a subroutine call?}
 \begin{adjustwidth}{2.35em}{0pt}
-Yes because when specifying a default value there's the additional overhead of, on top of allocating space for the parameter, setting its value in runtime instead of leaving it as garbage.
+No because the default value is set to the parameter in runtime so it's equivalent to setting the value within the function normally.
 \end{adjustwidth}
 
 \end{document}
