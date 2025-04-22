@@ -78,6 +78,63 @@ It would be impossible because recursion is impossible with just textual substit
 
 \section{Consider a subroutine \texttt{swap} that takes two parameters and simply swaps their values. For example, after calling \texttt{swap(X,Y)}, \texttt{X} should have the original value of \texttt{Y} and \texttt{Y} the original value of \texttt{X}. Assume that variables to be swapped can be simple or subscripted (elements of an array), and they have the same type (integer). Show that it is \textit{impossible} to write such a general-purpose \texttt{swap} subroutine in a language with:}
 \subsection{Parameters passing by value.}
+\begin{adjustwidth}{2.35em}{0pt}
+It's impossible when passing by value because the programmer only has access to the values of X and Y and not the addresses of the variables. Therefore, the programmer can't set the value at the address of X to the value of Y and vice versa.
+\end{adjustwidth}
 \subsection{Parameters passing by name.}
+\begin{adjustwidth}{2.35em}{0pt}
+int t = x;
+x = y;
+y = t;
+\end{adjustwidth}
+
+\section{Consider the following program, written in no particular language.}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}
+procedure f (x, y, z)
+	x := x + 1
+	y := z
+	z := z + 1
+
+// main
+i := 1;
+a[1] := 10;
+a[2] := 11
+f (i, a[i], i);
+print (i);
+print (a[1]);
+print (a[2]);
+\end{Verbatim}
+Show what the program prints in the case of parameter passing by
+\end{adjustwidth}
+\subsection{value}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}
+1 10 11
+\end{Verbatim}
+\end{adjustwidth}
+\subsection{reference}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}
+3 2 11
+\end{Verbatim}
+\end{adjustwidth}
+\subsection{value-result}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}
+2 10 1
+\end{Verbatim}
+\end{adjustwidth}
+\subsection{name}
+\begin{adjustwidth}{2.35em}{0pt}
+\begin{Verbatim}
+3 10 2
+\end{Verbatim}
+\end{adjustwidth}
+
+\section{Does a program run faster when the programmer does not specify values for the optional parameters in a subroutine call?}
+\begin{adjustwidth}{2.35em}{0pt}
+Yes because when specifying a default value there's the additional overhead of, on top of allocating space for the parameter, setting its value in runtime instead of leaving it as garbage.
+\end{adjustwidth}
 
 \end{document}
